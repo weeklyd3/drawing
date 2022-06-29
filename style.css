@@ -1,0 +1,56 @@
+button, input, select {
+    font-family: inherit;
+    font-size: inherit;
+}
+body {
+    margin: 0;
+    font-family: system-ui;
+}
+.taitl {
+    background-color: black;
+    color: white;
+    width: 100%;
+    text-align: center;
+    position: sticky;
+    top: 0;
+}
+.hidden2eyes {
+    position: fixed;
+    top: -9999px;
+}
+#commandbox {
+    width: 100%;
+    resize: none;
+}
+* {
+    box-sizing: border-box;
+}
+.output-line {
+    white-space: pre-wrap;
+    background-color: lime;
+    display: block;
+}
+.output-error {
+    white-space: pre-wrap;
+    background-color: red;
+    color: white;
+    display: block;
+}
+.input-line {
+    white-space: pre-wrap;
+    display: block;
+}
+pre {
+    word-break: break-word;
+}
+.output-warning {
+    white-space: pre-wrap;
+    display: block;
+    background-color: gold;
+}
+#drawing {
+    overflow: hidden;
+}
+.CodeMirror-wrap pre {
+    word-break: break-word;
+}

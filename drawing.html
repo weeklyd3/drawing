@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Drawing</title>
+<script src="svg.js"></script>
+<script src="highlight.js/highlight.js"></script>
+<link rel="stylesheet" href="highlight.js/vs.css" />
+<link rel="stylesheet" href="codemirror/codemirror.css" />
+<style>@import url('style.css');
+.CodeMirror {
+  border: 1px solid #eee;
+  height: auto;
+  max-height: 200px;
+}
+.CodeMirror-scroll {
+  overflow-y: hidden;
+  overflow-x: auto;
+  max-height: 200px;
+}
+</style>
+<script src="codemirror/codemirror.js"></script>
+<script src="codemirror/javascript-mode.js"></script>
+<script src="codemirror/closebrackets.js"></script>
+<script src="codemirror/matchbrackets.js"></script>
+</head>
+<body>
+<div style="float: left; width: 50%; height: 100vh; max-height: 100vh; overflow: auto;">
+<div class="taitl">Output</div>
+<img id="cursor" style="transform: rotate(90deg) translate(-50%, -50%); position: fixed; top: calc(19.333333px + 10px); left: 5px;" src="arrow.svg" alt="" />
+<script>const currentPos = [5, 10, 90];
+var drawWhenMoving = false;
+var rotateUnits = 'deg';
+var width = 1;
+var backColor = 'black';</script>
+<div style="display: block;height: calc(100% - 19.333333px); background-image: url('transparent.svg'); width: 100%;" id="drawing"></div>
+</div>
+<div style="float: right; width: 50%; max-height: 100vh; overflow: auto;" id="consoleWrapper">
+    <div class="taitl">JavaScript Console</div>
+<pre id="console"><span class="output-line">// Welcome to the console. Please,</span><span class="output-line">// type your JavaScript.</span><span class="output-line">// Use penUp() and penDown() to control drawing.
+// use rotateTo(), rotate(), fwd(), and moveTo() 
+// to draw.</span></pre>
+<label style="position: sticky; bottom: 0;">
+<span class="hidden2eyes">Command:</span>
+<textarea rows="2" id="commandbox" placeholder="Enter commands here"></textarea></label>
+</div>
+<script src="script.js"></script>
+</body>
+</html>

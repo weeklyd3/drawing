@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Drawing</title>
+<script src="svg.js"></script>
+<script src="highlight.js/highlight.js"></script>
+<link rel="stylesheet" href="highlight.js/vs.css" />
+<link rel="stylesheet" href="codemirror/codemirror.css" />
+<style>@import url('style.css');
+.menubar {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: rgb(181, 181, 181);
+}
+.menubar button {
+    text-align: left;
+    border: none;
+    background-color: inherit;
+}
+.menubar div:hover div {
+    display: block;
+}
+.menubar > div > div {
+    background-color: white;
+    display: none;
+    position: absolute;
+    width: 120px;
+}
+.menubar > div > div > button {
+    text-align: left;
+    cursor: pointer;
+    padding: 1px 4px;
+    border: 1px solid;
+    background-color: inherit;
+    display: block;
+    width: 100%;
+}
+.menubar > div > div > button:hover {
+    background-color: Highlight;
+}
+</style>
+</head>
+<body>
+<div style="position: fixed; display: table; top: 0; left: 0; width: 100%; height: 100%;">
+<div style="display: table-row; height: 0px;"><div class="menubar">
+<div class="dropdown">
+<button>File</button>
+<div>
+    <button onclick="document.getElementById('file').click();">Import</button>
+    <button onclick="setStatus('Attempted to open file save dialog'); download(document.querySelector('iframe').contentWindow.drawing.svg(), 'download.svg', 'image/svg+xml');setStatus('The dialog should have opened.')">Export</button>
+    <button onclick="window.open('index.html');">New window</button>
+    <button onclick="setStatus('Attempting to close window'); window.close(); setStatus('Failed to close window');">Close window</button>
+</div>
+</div>
+<div class="dropdown">
+<button>Edit</button>
+<div>
+    <button onclick="document.querySelector('iframe').contentWindow.undo()">Undo</button>
+    <button onclick="document.querySelector('iframe').contentWindow.redo()">Redo</button>
+    <button onclick="document.querySelector('iframe').contentWindow.document.querySelector('svg').innerHTML = '';">Clear canvas</button>
+</div>
+</div>
+</div></div>
+<div style="display: table-row; height: 100%;">
+<div style="display: table-cell; width: 100%;">
+<iframe src="drawing.html" style="border: none; width: 100%; height: 100%;"></iframe> 
+</div>
+</div>
+<div style="height: 0px; display: table-row;" class="menubar">
+    <div id="status" style="display: table-cell;">Welcome</div></div>
+</div>
+<script>
+    function setStatus(status) {
+        document.querySelector('#status').textContent = status;
+    }
+// Function to download data to a file
+// From https://stackoverflow.com/a/30832210/15578194
+function download(data, filename, type) {
+    var file = new Blob([data], {type: type});
+    if (window.navigator.msSaveOrOpenBlob) // IE10+
+        window.navigator.msSaveOrOpenBlob(file, filename);
+    else { // Others
+        var a = document.createElement("a"),
+                url = URL.createObjectURL(file);
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);  
+        }, 0); 
+    }
+}
+</script>
+<div id="open" hidden="hidden">
+    <label>Select a file:
+        <input id="file" type="file" onchange="setStatus('Reading file...'); const reader = new FileReader(); reader.addEventListener('load', (event) => { setStatus('Imported'); try { document.querySelector('iframe').contentWindow.drawing.svg(event.target.result); } catch (e) { setStatus('Failed to call import function. Do not open this as a file, instead, run a HTTP server.') } }); reader.readAsText(this.files[0]);   reader.addEventListener('progress', (event) => { if (event.loaded && event.total) { const percent = (event.loaded / event.total) * 100; setStatus(`Reading file: ${Math.round(percent)} percent`); } });" />
+    </label>
+</div>
+</body>
+</html>
